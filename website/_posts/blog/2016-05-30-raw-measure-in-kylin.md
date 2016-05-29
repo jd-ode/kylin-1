@@ -41,9 +41,9 @@ to return the correct result:
 
 
 ##How to use
-1. Choose the Kylin version 1.5.1+.
-2. Like the above case, we can make the `DT,SITE_ID` as dimensions, and `RAW(ITEM_COUNT)`as measure.
-3. After the cube build, you can use the SQL to query the raw data:
+- Choose the Kylin version 1.5.1+.
+- Like the above case, we can make the `DT,SITE_ID` as dimensions, and `RAW(ITEM_COUNT)`as measure.
+- After the cube build, you can use the SQL to query the raw data:
 ```
 SELECT DT,SITE_ID,ITEM_COUNT FROM FACT_TABLE WHERE SITE_ID = 0
 ```
@@ -52,8 +52,8 @@ SELECT DT,SITE_ID,ITEM_COUNT FROM FACT_TABLE WHERE SITE_ID = 0
 The column which define `RAW` measure will be encoded with dictionary by default. So, you must know you data's cardinality and distribution characteristics.
 - As far as possible to define the value uniform distribution column to dimensions, this will make the measure cell value size more uniform and avoid data skew.
 - If choose the ultra high cardinality column to define `RAW` measure, you can try the following to avoid the dictionary build error:
-1. Cut a big segment into several segments, if you were trying to build a large data set at once;
-2. Set `kylin.dictionary.max.cardinality` in conf/kylin.properties to a bigger value (default is 5000000).
+  1. Cut a big segment into several segments, if you were trying to build a large data set at once;
+  2. Set `kylin.dictionary.max.cardinality` in conf/kylin.properties to a bigger value (default is 5000000).
 
 
 ##To be improved
@@ -62,8 +62,8 @@ The column which define `RAW` measure will be encoded with dictionary by default
 
 
 ##Implement
-1. Custom one aggregation function `RAW` implement, the function's return type depends on the column type.
-2. Make the `RAW` aggregation function to save the column raw data in the base cuboid data.
-3. The HBase value cell will store the dictionary id of the raw data to save space.
-4. The SQL which contains the `RAW` measure column will be routed to the base cuboid query.
-5. Extract the raw data from base cuboid data with dimension values to assemble into a complete row when query.
+- Custom one aggregation function `RAW` implement, the function's return type depends on the column type.
+- Make the `RAW` aggregation function to save the column raw data in the base cuboid data.
+- The HBase value cell will store the dictionary id of the raw data to save space.
+- The SQL which contains the `RAW` measure column will be routed to the base cuboid query.
+- Extract the raw data from base cuboid data with dimension values to assemble into a complete row when query.
